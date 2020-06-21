@@ -1,44 +1,70 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
-      home: Scaffold(
-    body: bankTransferList(),
-    appBar: AppBar(
-      title: Text('Transferências'),
-    ),
-    floatingActionButton: FloatingActionButton(
-      child: Icon(Icons.add),
-    ),
-  )));
+  runApp(ByteBankApp());
 }
 
-class bankTransferList extends StatelessWidget {
+class ByteBankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        cardBankTransfer('100.00', '605040-7'),
-        cardBankTransfer('200.00', '605847-8'),
-        cardBankTransfer('303.00', '215487-2'),
-      ],
-    );
+    return MaterialApp(
+        home: Scaffold(
+      body: BankTransferForm(),
+    ));
   }
 }
 
-class cardBankTransfer extends StatelessWidget {
-  final String valueTransfer;
-  final String bankAccountNumber;
+class BankTransferList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Transferências'),
+        ),
+        body: Column(
+          children: <Widget>[
+            CardBankTransfer(ValuesBankTransfer(100.00, '587458-7')),
+            CardBankTransfer(ValuesBankTransfer(200.00, '587458-7')),
+            CardBankTransfer(ValuesBankTransfer(300.00, '587458-7')),
+            CardBankTransfer(ValuesBankTransfer(400.00, '587458-7')),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+        ));
+  }
+}
 
-  cardBankTransfer(this.valueTransfer, this.bankAccountNumber);
+class CardBankTransfer extends StatelessWidget {
+  final ValuesBankTransfer _valuesBankTransfer;
+
+  CardBankTransfer(this._valuesBankTransfer);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
         leading: Icon(Icons.monetization_on),
-        title: Text(valueTransfer),
-        subtitle: Text(bankAccountNumber),
+        title: Text(_valuesBankTransfer.valueTransfer.toString()),
+        subtitle: Text(_valuesBankTransfer.bankAccountNumber),
+      ),
+    );
+  }
+}
+
+class ValuesBankTransfer {
+  final double valueTransfer;
+  final String bankAccountNumber;
+
+  ValuesBankTransfer(this.valueTransfer, this.bankAccountNumber);
+}
+
+class BankTransferForm extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Formulário de Transferência'),
       ),
     );
   }
