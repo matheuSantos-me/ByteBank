@@ -66,6 +66,36 @@ class BankTransferForm extends StatelessWidget {
       appBar: AppBar(
         title: Text('Formulário de Transferência'),
       ),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
+            child: TextField(
+              style: TextStyle(fontSize: 24.0),
+              decoration: InputDecoration(
+                  labelText: 'Número da Conta', hintText: '000000-0'),
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 32.0),
+            child: TextField(
+              style: TextStyle(fontSize: 24.0),
+              decoration: InputDecoration(
+                  icon: Icon(Icons.monetization_on),
+                  labelText: 'Número da Conta',
+                  hintText: '000000-0'),
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          RaisedButton(
+            child: Text('CONFIRMAR TRANSFERENCIA'),
+            onPressed: () {
+              print('FGHJKLKJHGFDSDFGHJKLKJHGFDSDFGHJK');
+            },
+          )
+        ],
+      ),
     );
   }
 }
