@@ -14,26 +14,32 @@ class ByteBankApp extends StatelessWidget {
   }
 }
 
-class BankTransferList extends StatelessWidget {
+class BankTransferList extends StatefulWidget {
+  final List<Transferencia> _transferencias = List();
   @override
   Widget build(BuildContext context) {
+    _transferencias.add(Transferencia(100.0, 100))
     return Scaffold(
         appBar: AppBar(
           title: Text('Transferências'),
         ),
-        body: Column(
-          children: <Widget>[
-            CardBankTransfer(ValuesBankTransfer(100.00, 587458 - 3)),
-            CardBankTransfer(ValuesBankTransfer(200.00, 587458 - 7)),
-            CardBankTransfer(ValuesBankTransfer(300.00, 587458 - 7)),
-            CardBankTransfer(ValuesBankTransfer(400.00, 587458 - 7)),
-          ],
+        body: ListView.builder(
+          itemCount: _transferencias.length,
+          itemBuilder: (context, indice) {
+            final transferencia = _transferencias[indice];
+            return CardBankTransfer(transferencia);
+          },
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add), onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
+            final Future<Transferencia> future = Navigator.push(context, MaterialPageRoute(builder: (context) {
               return BankTransferForm();
             }));
+            future.then((bankReferenceReceived) {
+              debugPrint('Chegou a transferncia');
+              debugPrint('$bankReferenceReceived');
+              _transferencias.add(bankReferenceReceived)
+            });
           },
         ));
   }
@@ -95,22 +101,25 @@ class BankTransferForm extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(0, 50.0, 0, 0),
             child: RaisedButton(
               child: Text('CONFIRMAR TRANSFERÊNCIA'),
-              onPressed: () {
-                final double BankTransferAmount =
-                    double.tryParse(_controllerBankTransferAmount.text);
-                final int BankAccountNumber =
-                    int.tryParse(_controllerBankAccountNumber.text);
-                if (BankTransferAmount != null && BankAccountNumber != null) {
-                  final CreateBankTransfer =
-                      ValuesBankTransfer(BankTransferAmount, BankAccountNumber);
-                  print('$CreateBankTransfer');
-                }
-              },
+              onPressed: () => _criaTransferencia(context),
             ),
           )
         ],
       ),
     );
+  }
+
+  void _criaTransferencia(BuildContext context) {
+    final double BankTransferAmount =
+        double.tryParse(_controllerBankTransferAmount.text);
+    final int BankAccountNumber =
+        int.tryParse(_controllerBankAccountNumber.text);
+    if (BankTransferAmount != null && BankAccountNumber != null) {
+      final CreateBankTransfer =
+          ValuesBankTransfer(BankTransferAmount, BankAccountNumber);
+      print('$CreateBankTransfer');
+      Navigator.pop(context, CreateBankTransfer);
+    }
   }
 }
 
