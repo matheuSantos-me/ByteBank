@@ -8,9 +8,20 @@ class ByteBankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-      body: ListaTransferencias(),
-    ));
+      theme: ThemeData(
+        primaryColor: Colors.green[900],
+        buttonTheme: ButtonThemeData(
+          height: 50,
+          minWidth: 350,
+          buttonColor: Colors.green[900],
+          textTheme: ButtonTextTheme.primary
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData (
+          backgroundColor: Colors.green[900]
+        )
+      ),
+        home: ListaTransferencias(),
+    );
   }
 }
 
@@ -120,11 +131,14 @@ class FormularioTransferenciaState extends State<FormularioTransferencia> {
               rotulo: 'Valor',
               icone: Icons.monetization_on,
             ),
-            RaisedButton(
-              child: Text('Confirmar'),
-              onPressed: () {
-                _criaTransferencia(context);
-              },
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 48.0, 8.0, 0),
+              child: RaisedButton(
+                child: Text('Confirmar'),
+                onPressed: () {
+                  _criaTransferencia(context);
+                },
+              ),
             )
           ],
         ),
@@ -154,7 +168,7 @@ class Editor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 0),
       child: TextField(
         controller: controlador,
         style: TextStyle(fontSize: 24.0),
