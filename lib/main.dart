@@ -9,7 +9,7 @@ class ByteBankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      body: BankTransferForm(),
+      body: BankTransferList(),
     ));
   }
 }
@@ -30,7 +30,11 @@ class BankTransferList extends StatelessWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          child: Icon(Icons.add), onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return BankTransferForm();
+            }));
+          },
         ));
   }
 }
