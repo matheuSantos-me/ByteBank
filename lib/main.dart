@@ -10,27 +10,40 @@ class ByteBankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      body: FormularioTransferencia(),
+      body: ListaTransferencias(),
     ));
   }
 }
 
 
 class ListaTransferencias extends StatelessWidget {
+  final List<Transferencia> _transferencias = List();  
 
   @override
   Widget build(BuildContext context) {
+    _transferencias.add(Transferencia(1010, 1010));
     return Scaffold(
         appBar: AppBar(
           title: Text('Transferências'),
         ),
-        body: Column(
-          children: <Widget>[
-            ItemTransferencia(Transferencia(1000, 1000)),
-          ],
+        body: ListView.builder(
+          itemCount: _transferencias.length,
+          itemBuilder: (context, indice) {
+            final transferencia = _transferencias[indice];
+            return ItemTransferencia(transferencia);
+          },
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          child: Icon(Icons.add), onPressed: () {
+            final Future<Transferencia> future = Navigator.push(context, MaterialPageRoute(builder: (context){
+              return FormularioTransferencia();
+            }));
+            future.then((transferenciaRecebida) {
+              debugPrint('CHEGOUUUUUUUUUUUUUUUU');
+              debugPrint('$transferenciaRecebida');
+              _transferencias.add(transferenciaRecebida);
+            });
+          },
         ));
   }
 }
@@ -82,7 +95,7 @@ class FormularioTransferencia extends StatelessWidget {
           RaisedButton(
             child: Text('Confirmar'),
             onPressed: () {
-              _criaTransferencia();
+              _criaTransferencia(context);
             },
           )
         ],
@@ -90,12 +103,13 @@ class FormularioTransferencia extends StatelessWidget {
     );
   }
 
-  void _criaTransferencia() {
+  void _criaTransferencia(BuildContext context) {
     final int numeroConta = int.tryParse(_controladorCampoValor.text);
     final double valor = double.tryParse(_controladorCampoNumeroConta.text);
     if (numeroConta != null && valor != null) {
       final transferenciaCriada = Transferencia(valor, numeroConta);
       debugPrint('$transferenciaCriada');
+      Navigator.pop(context, transferenciaCriada);
     }
   }
 }
