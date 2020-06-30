@@ -46,9 +46,13 @@ class ListaTransferenciaState extends State<ListaTransferencias> {
               return FormularioTransferencia();
             }));
             future.then((transferenciaRecebida) {
-              if (transferenciaRecebida != null ) {
-                widget._transferencias.add(transferenciaRecebida);
-              }
+              Future.delayed(Duration(seconds: 1), () {
+                 if (transferenciaRecebida != null ) {
+                   setState(() {
+                    widget._transferencias.add(transferenciaRecebida);
+                   });
+                }
+              });
             });
           },
         ));
@@ -94,8 +98,7 @@ class FormularioTransferencia extends StatefulWidget {
 
 
 class FormularioTransferenciaState extends State<FormularioTransferencia> {
-  final TextEditingController _controladorCampoNumeroConta =
-      TextEditingController();
+  final TextEditingController _controladorCampoNumeroConta = TextEditingController();
   final TextEditingController _controladorCampoValor = TextEditingController();
 
   @override
