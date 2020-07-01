@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
 class Editor extends StatelessWidget {
-  final TextEditingController controlador;
-  final String rotulo;
-  final String dica;
-  final IconData icone;
+  final TextEditingController controller;
+  final String label;
+  final String placeholder;
+  final IconData icon;
 
-  Editor({this.controlador, this.rotulo, this.dica, this.icone});
+  Editor({ this.controller, this.label, this.placeholder, this.icon });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Padding (
       padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 0),
-      child: TextField(
-        controller: controlador,
+      child: TextField (
+        controller: controller,
         style: TextStyle(fontSize: 24.0),
-        decoration: InputDecoration(
-            icon: icone != null ? Icon(icone) : null,
-            labelText: rotulo,
-            hintText: dica),
+        decoration: InputDecoration (
+            icon: icon != null ? Icon(icon) : null,
+            labelText: label,
+            hintText: placeholder),
         keyboardType: TextInputType.number,
       ),
     );

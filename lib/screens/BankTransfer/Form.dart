@@ -2,44 +2,51 @@ import 'package:bytebank/components/InputText.dart';
 import 'package:bytebank/models/BankTransfer.dart';
 import 'package:flutter/material.dart';
 
-class FormularioTransferencia extends StatefulWidget {
+const _titlePage = 'Criando nova transferência';
+const _labelAccountNumber = 'Digite o número da conta com dígito';
+const _placeholderAccountNumber = '999999-9';
+const _labelValueTransfer = 'Digite o valor a ser transferido';
+const _placeholderValueTransfer = '100.00';
+const _label = 'CONFIRMAR';
+
+class FormBankTransfer extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return FormularioTransferenciaState();
+    return FormBankTransferState();
   }
 }
 
 
-class FormularioTransferenciaState extends State<FormularioTransferencia> {
-  final TextEditingController _controladorCampoNumeroConta = TextEditingController();
-  final TextEditingController _controladorCampoValor = TextEditingController();
+class FormBankTransferState extends State<FormBankTransfer> {
+  final TextEditingController _controllerInputBankAccountNumber = TextEditingController();
+  final TextEditingController _controllerInputBankTransfer = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Criando Transferencia'),
+        title: Text(_titlePage),
       ),
       body: SingleChildScrollView(
               child: Column(
           children: <Widget>[
             Editor(
-                controlador: _controladorCampoNumeroConta,
-                dica: '0000',
-                rotulo: 'Número da conta'),
+                controller: _controllerInputBankAccountNumber,
+                placeholder: _placeholderAccountNumber,
+                label: _labelAccountNumber),
             Editor(
-              controlador: _controladorCampoValor,
-              dica: '0.00',
-              rotulo: 'Valor',
-              icone: Icons.monetization_on,
+              controller: _controllerInputBankTransfer,
+              placeholder: _placeholderValueTransfer,
+              label: _labelValueTransfer,
+              icon: Icons.monetization_on,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 48.0, 8.0, 0),
               child: RaisedButton(
-                child: Text('Confirmar'),
+                child: Text(_label),
                 onPressed: () {
-                  _criaTransferencia(context);
+                  _createsBankTransfer(context);
                 },
               ),
             )
@@ -49,13 +56,13 @@ class FormularioTransferenciaState extends State<FormularioTransferencia> {
     );
   }
 
-  void _criaTransferencia(BuildContext context) {
-    final int numeroConta = int.tryParse(_controladorCampoValor.text);
-    final double valor = double.tryParse(_controladorCampoNumeroConta.text);
-    if (numeroConta != null && valor != null) {
-      final transferenciaCriada = Transferencia(valor, numeroConta);
-      debugPrint('$transferenciaCriada');
-      Navigator.pop(context, transferenciaCriada);
+  void _createsBankTransfer(BuildContext context) {
+    final int bankAccountNumber = int.tryParse(_controllerInputBankTransfer.text);
+    final double bankTransferAmount = double.tryParse(_controllerInputBankAccountNumber.text);
+    if (bankAccountNumber != null && bankTransferAmount != null) {
+      final bankTransferCreated = BankTransfer(bankTransferAmount, bankAccountNumber);
+      debugPrint('$bankTransferCreated');
+      Navigator.pop(context, bankTransferCreated);
     }
   }
 }

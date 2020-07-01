@@ -1,66 +1,69 @@
-import 'package:bytebank/screens/BankTransfer/Form.dart';
 import 'package:flutter/material.dart';
 
+import 'package:bytebank/screens/BankTransfer/Form.dart';
 import 'package:bytebank/models/BankTransfer.dart';
 
-class ListaTransferencias extends StatefulWidget {
-  final List<Transferencia> _transferencias = List();
+const _titlePage = 'Transferências criadas';
+
+class ListBankTransfer extends StatefulWidget {
+  final List<BankTransfer> _bankTransfer = List();
 
   @override
   State<StatefulWidget> createState() {
-    return ListaTransferenciaState();
+    return ListBankTransferState();
   }
 }
 
-class ListaTransferenciaState extends State<ListaTransferencias> {
-  
+class ListBankTransferState extends State<ListBankTransfer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Transferências'),
+          title: Text(_titlePage),
         ),
         body: ListView.builder(
-          itemCount: widget._transferencias.length,
-          itemBuilder: (context, indice) {
-            final transferencia = widget._transferencias[indice];
-            return ItemTransferencia(transferencia);
+          itemCount: widget._bankTransfer.length,
+          itemBuilder: (context, index) {
+            final bankTransfer = widget._bankTransfer[index];
+            return CardBankTransfer(bankTransfer);
           },
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            final Future<Transferencia> future =
+            final Future<BankTransfer> future =
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return FormularioTransferencia();
+              return FormBankTransfer();
             }));
-            future.then((transferenciaRecebida) {
-              Future.delayed(Duration(seconds: 1), () {
-                 if (transferenciaRecebida != null ) {
-                   setState(() {
-                    widget._transferencias.add(transferenciaRecebida);
-                   });
-                }
-              });
+            future.then((bankTransferReceived) {
+              Future.delayed(Duration(seconds: 2),
+                  () => _updateBankTransfer(bankTransferReceived));
             });
           },
         ));
   }
+
+  void _updateBankTransfer(BankTransfer bankTransferReceived) {
+    if (bankTransferReceived != null) {
+      setState(() {
+        widget._bankTransfer.add(bankTransferReceived);
+      });
+    }
+  }
 }
 
+class CardBankTransfer extends StatelessWidget {
+  final BankTransfer _bankTransfer;
 
-class ItemTransferencia extends StatelessWidget {
-  final Transferencia _transferencia;
-
-  ItemTransferencia(this._transferencia);
+  CardBankTransfer(this._bankTransfer);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
         leading: Icon(Icons.monetization_on),
-        title: Text(_transferencia.valor.toString()),
-        subtitle: Text(_transferencia.numeroConta.toString()),
+        title: Text(_bankTransfer.bankTransferAmount.toString()),
+        subtitle: Text(_bankTransfer.bankAccountNumber.toString()),
       ),
     );
   }
