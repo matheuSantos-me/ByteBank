@@ -6,6 +6,6 @@ class BankTransfer {
 
   @override
   String toString() {
-    return 'Transferencia{valor: $bankTransferAmount, numeroConta: $bankAccountNumber}';
+    return 'BankTransfer{valor: $bankTransferAmount, numeroConta: $bankAccountNumber}';
   }
 }
